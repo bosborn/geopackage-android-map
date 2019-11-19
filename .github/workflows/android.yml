@@ -18,7 +18,10 @@ jobs:
     - name: Make Release Directory
       run: mkdir geopackage-map/build/release
     - name: Copy Release Artifacts
-      run: cp geopackage-map/build/libs/*.jar geopackage-map/build/outputs/aar/*.aar geopackage-map/build/release/
+      run: |
+        cp geopackage-map/build/libs/*.jar geopackage-map/build/outputs/aar/*release.aar geopackage-map/build/release/
+        grep "version =" geopackage-map/build.gradle | sed 's/[a-z ="]//g' > VERSION
+        mv geopackage-map/build/release/*.aar geopackage-map/build/release/geopackage-android-map-$(cat VERSION).aar 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1
       with:
