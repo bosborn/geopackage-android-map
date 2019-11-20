@@ -1,8 +1,9 @@
 name: Android CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
+  
   build:
 
     runs-on: ubuntu-latest
@@ -27,3 +28,14 @@ jobs:
       with:
         name: geopackage-android-map
         path: geopackage-map/build/release
+
+  test:
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v1
+    - name: Run Tests
+      uses: reactivecircus/android-emulator-runner@v1
+      with:
+        api-level: 29
+        script: ./gradlew connectedAndroidTest
